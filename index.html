@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una invitación especial ❤️</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --rosa: #e889a6;
+            --rosa-claro: #fce5eb;
+            --vino: #9e405e;
+            --crema: #fffaf5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff1f3, #fce4ec, #fff8f0);
+            font-family: 'Poppins', sans-serif;
+            color: #65404d;
+            overflow-x: hidden;
+        }
+
+        .fondo-corazones {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .corazon {
+            position: absolute;
+            bottom: -30px;
+            color: #e99ab1;
+            opacity: .35;
+            animation: flotar 9s linear infinite;
+        }
+
+        @keyframes flotar {
+            to {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .contenedor {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        .pantalla {
+            display: none;
+            width: 100%;
+            max-width: 580px;
+            text-align: center;
+            animation: aparecer .7s ease;
+        }
+
+        .pantalla.activa {
+            display: block;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tarjeta {
+            background: rgba(255, 255, 255, .90);
+            padding: 42px 30px;
+            border-radius: 28px;
+            box-shadow: 0 15px 50px rgba(157, 75, 103, .13);
+            border: 1px solid rgba(255, 255, 255, .9);
+        }
+
+        .etiqueta {
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--rosa);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2 {
+            color: var(--vino);
+        }
+
+        .titulo {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(45px, 9vw, 65px);
+            margin: 18px 0;
+            font-weight: normal;
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #876875;
+        }
+
+        .decoracion {
+            font-size: 48px;
+            margin: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #f1c4d1;
+            border-radius: 14px;
+            outline: none;
+            margin: 25px 0 15px;
+            font-family: inherit;
+            text-align: center;
+            font-size: 15px;
+            background: #fffafd;
+        }
+
+        input:focus {
+            border-color: var(--rosa);
+            box-shadow: 0 0 0 3px #fce5eb;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 50px;
+            padding: 14px 28px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .btn-principal {
+            background: linear-gradient(135deg, #e88da9, #c75c7e);
+            color: white;
+            box-shadow: 0 7px 20px #e889a655;
+        }
+
+        .btn-principal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px #e889a677;
+        }
+
+        .btn-secundario {
+            background: #f9e8ed;
+            color: #a34c68;
+        }
+
+        .sobre {
+            position: relative;
+            width: 230px;
+            height: 155px;
+            background: #eaa0b6;
+            margin: 55px auto 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px #9e405e33;
+            transition: .5s;
+        }
+
+        .sobre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 115px solid transparent;
+            border-right: 115px solid transparent;
+            border-top: 95px solid #d87d9b;
+            z-index: 2;
+            transform-origin: top;
+            transition: .7s;
+        }
+
+        .sobre::after {
+            content: '♥';
+            position: absolute;
+            z-index: 3;
+            top: 58px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 30px;
+        }
+
+        .sobre.abierto::before {
+            transform: rotateX(180deg);
+        }
+
+        .carta {
+            position: absolute;
+            width: 190px;
+            height: 135px;
+            background: #fffaf5;
+            left: 20px;
+            bottom: 0;
+            border-radius: 5px;
+            transition: .9s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: 25px;
+            color: var(--vino);
+        }
+
+        .sobre.abierto .carta {
+            transform: translateY(-100px);
+        }
+
+        .mensaje {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(32px, 7vw, 44px);
+            color: var(--vino);
+            margin: 20px 0;
+        }
+
+        .opciones {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            min-height: 65px;
+            align-items: center;
+            position: relative;
+        }
+
+        #btnNo {
+            background: #f5e8eb;
+            color: #a65c73;
+        }
+
+        .pregunta {
+            font-family: 'Great Vibes', cursive;
+            font-size: 43px;
+            margin: 20px 0;
+        }
+
+        .subtitulo {
+            margin-bottom: 25px;
+        }
+
+        .menu-opciones {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 13px;
+            margin: 25px 0;
+        }
+
+        .opcion {
+            padding: 17px 10px;
+            background: #fff8fa;
+            border: 2px solid #f7dce5;
+            border-radius: 17px;
+            cursor: pointer;
+            transition: .3s;
+            font-size: 14px;
+            color: #805b68;
+        }
+
+        .opcion span {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 7px;
+        }
+
+        .opcion:hover {
+            transform: translateY(-4px);
+            border-color: var(--rosa);
+        }
+
+        .opcion.seleccionada {
+            border-color: #d65e83;
+            background: #fce5eb;
+            box-shadow: 0 5px 15px #e889a633;
+        }
+
+        .mensaje-final {
+            background: #fff2f6;
+            border-radius: 18px;
+            padding: 22px;
+            margin: 25px 0;
+            text-align: left;
+            line-height: 2;
+        }
+
+        .mensaje-final strong {
+            color: var(--vino);
+        }
+
+        .corazones-final {
+            font-size: 40px;
+            margin: 15px;
+        }
+
+        @media(max-width:480px) {
+            .tarjeta {
+                padding: 35px 20px;
+            }
+
+            .menu-opciones {
+                gap: 9px;
+            }
+
+            .opcion {
+                padding: 13px 5px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="fondo-corazones" id="fondo"></div>
+
+    <main class="contenedor">
+
+        <!-- PANTALLA 1: BIENVENIDA -->
+
+        <section class="pantalla activa" id="inicio">
+            <div class="tarjeta">
+                <div class="decoracion">💌</div>
+
+                <span class="etiqueta">UNA INVITACIÓN ESPECIAL</span>
+
+                <h1 class="titulo">Tengo algo para ti...</h1>
+
+                <p>
+                    Hay personas que llegan a nuestra vida
+                    y hacen que los pequeños momentos
+                    se vuelvan especiales.
+                </p>
+
+                <p style="margin-top:15px">
+                    Esta pequeña sorpresa es para alguien especial.
+                </p>
+
+                <input type="text" id="nombre" placeholder="Escribe tu nombre aquí..." maxlength="35">
+
+                <button class="btn btn-principal" onclick="continuar()">
+                    Abrir mi sorpresa ❤️
+                </button>
+            </div>
+        </section>
+
+
+        <!-- PANTALLA 2: SOBRE -->
+
+        <section class="pantalla" id="carta">
+            <div class="tarjeta">
+
+                <span class="etiqueta">UNA CARTA PARA TI</span>
+
+                <h1 class="titulo">Querida <span id="nombreCarta"></span></h1>
+
+                <p>He preparado algo que me gustaría que descubrieras...</p>
+
+                <div class="sobre" id="sobre" onclick="abrirCarta()">
+                    <div class="carta">Para ti ♥</div>
+                </div>
+
+                <p id="textoSobre">Toca el sobre para abrir tu carta ❤️</p>
+
+                <button class="btn btn-principal" id="btnContinuarCarta" style="display:none"
+                    onclick="mostrarPregunta()">
+                    Descubrir la pregunta 💕
+                </button>
+
+            </div>
+        </section>
+
+
+        <!-- PANTALLA 3: PREGUNTA -->
+
+        <section class="pantalla" id="pregunta">
+            <div class="tarjeta">
+
+                <div class="decoracion">🌹</div>
+
+                <span class="etiqueta">TENGO UNA PREGUNTA</span>
+
+                <h1 class="titulo">Una cita contigo...</h1>
+
+                <p>Me encantaría compartir contigo una tarde diferente,
+                    llena de sonrisas, buena comida y momentos bonitos.</p>
+
+                <h2 class="pregunta">
+                    ¿Quieres salir conmigo a una cita romántica?
+                </h2>
+
+                <p>Prometo hacer que sea un momento especial. ❤️</p>
+
+                <div class="opciones" id="zonaBotones">
+
+                    <button class="btn btn-principal" onclick="aceptar()">
+                        ¡SÍ, QUIERO! ❤️
+                    </button>
+
+                    <button class="btn btn-secundario" id="btnNo" onmouseenter="moverNo()" onclick="moverNo()">
+                        No 🙈
+                    </button>
+
+                </div>
+
+                <p style="font-size:11px;margin-top:20px">
+                    P.D. El botón NO es un poquito tímido... 😂
+                </p>
+            </div>
+        </section>
+
+
+        <!-- PANTALLA 4: COMIDA -->
+
+        <section class="pantalla" id="comida">
+            <div class="tarjeta">
+
+                <div class="decoracion">🍽️</div>
+
+                <span class="etiqueta">PRIMERA ELECCIÓN</span>
+
+                <h1 class="titulo">¡Sabía que dirías que sí!</h1>
+
+                <h2 class="pregunta">¿Qué te gustaría comer?</h2>
+
+                <p class="subtitulo">
+                    Quiero que disfrutes cada momento de nuestra cita.
+                </p>
+
+                <div class="menu-opciones" id="menuComida">
+
+                    <div class="opcion" onclick="seleccionar(this,'comida','🍕 Pizza')">
+                        <span>🍕</span> Pizza
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'comida','🍝 Pasta')">
+                        <span>🍝</span> Pasta
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'comida','🍔 Hamburguesa')">
+                        <span>🍔</span> Hamburguesa
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'comida','🍣 Sushi')">
+                        <span>🍣</span> Sushi
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'comida','🥩 Carne')">
+                        <span>🥩</span> Carne
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'comida','🥗 Algo saludable')">
+                        <span>🥗</span> Algo saludable
+                    </div>
+
+                </div>
+
+                <button class="btn btn-principal" onclick="siguienteBebida()">
+                    Continuar ❤️
+                </button>
+
+            </div>
+        </section>
+
+
+        <!-- PANTALLA 5: BEBIDA -->
+
+        <section class="pantalla" id="bebida">
+            <div class="tarjeta">
+
+                <div class="decoracion">🥂</div>
+
+                <span class="etiqueta">SEGUNDA ELECCIÓN</span>
+
+                <h1 class="titulo">Algo delicioso...</h1>
+
+                <h2 class="pregunta">¿Y qué quieres tomar?</h2>
+
+                <p class="subtitulo">
+                    Porque una cita especial merece una bebida especial.
+                </p>
+
+                <div class="menu-opciones" id="menuBebida">
+
+                    <div class="opcion" onclick="seleccionar(this,'bebida','🍓 Limonada de fresa')">
+                        <span>🍓</span> Limonada de fresa
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'bebida','☕ Café')">
+                        <span>☕</span> Café
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'bebida','🥤 Malteada')">
+                        <span>🥤</span> Malteada
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'bebida','🧃 Jugo natural')">
+                        <span>🧃</span> Jugo natural
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'bebida','🍹 Cóctel sin alcohol')">
+                        <span>🍹</span> Cóctel sin alcohol
+                    </div>
+
+                    <div class="opcion" onclick="seleccionar(this,'bebida','💧 Agua')">
+                        <span>💧</span> Agua
+                    </div>
+
+                </div>
+
+                <button class="btn btn-principal" onclick="finalizar()">
+                    ¡Esta será nuestra cita! 💗
+                </button>
+
+            </div>
+        </section>
+
+
+        <!-- PANTALLA 6: FINAL -->
+
+        <section class="pantalla" id="final">
+            <div class="tarjeta">
+
+                <div class="corazones-final">💗🌹💗</div>
+
+                <span class="etiqueta">TENEMOS UNA CITA</span>
+
+                <h1 class="titulo">¡Será maravilloso!</h1>
+
+                <p>
+                    <span id="nombreFinal"></span>,
+                    ya tenemos nuestra pequeña cita planeada.
+                </p>
+
+                <div class="mensaje-final">
+                    <p>❤️ <strong>Mi acompañante:</strong> <span id="resNombre"></span></p>
+                    <p>🍽️ <strong>Vamos a comer:</strong> <span id="resComida"></span></p>
+                    <p>🥂 <strong>Vamos a tomar:</strong> <span id="resBebida"></span></p>
+                </div>
+
+                <h2 class="pregunta">Lo mejor será compartirlo contigo.</h2>
+
+                <p>
+                    Gracias por regalarme la oportunidad
+                    de crear un recuerdo bonito a tu lado.
+                </p>
+
+                <div class="corazones-final">Te espero ❤️</div>
+
+                <button class="btn btn-principal" onclick="enviarWhatsApp()">
+                    Enviarme tu elección 💌
+                </button>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+
+        let nombre = "";
+        let comida = "";
+        let bebida = "";
+        let noIntentos = 0;
+        let cartaAbierta = false;
+
+        // CAMBIAR POR TU NUMERO DE WHATSAPP
+        const miWhatsApp = "573188736995";
+
+        function cambiarPantalla(id) {
+            document.querySelectorAll('.pantalla').forEach(p => {
+                p.classList.remove('activa');
+            });
+
+            document.getElementById(id).classList.add('activa');
+        }
+
+        function continuar() {
+            nombre = document.getElementById('nombre').value.trim();
+
+            if (!nombre) {
+                alert("Primero escribe tu nombre ❤️");
+                return;
+            }
+
+            document.getElementById('nombreCarta').textContent = nombre;
+
+            cambiarPantalla('carta');
+        }
+
+        function abrirCarta() {
+            if (cartaAbierta) return;
+
+            cartaAbierta = true;
+
+            document.getElementById('sobre').classList.add('abierto');
+
+            document.getElementById('textoSobre').textContent =
+                "Hay una pregunta que quiero hacerte... 💗";
+
+            setTimeout(() => {
+                document.getElementById('btnContinuarCarta').style.display = 'inline-block';
+            }, 1000);
+        }
+
+        function mostrarPregunta() {
+            cambiarPantalla('pregunta');
+        }
+
+        function moverNo() {
+            const boton = document.getElementById('btnNo');
+            const zona = document.getElementById('zonaBotones');
+
+            noIntentos++;
+
+            if (noIntentos >= 6) {
+                boton.textContent = "¡Está bien, puedes decir que no! ❤️";
+                boton.onmouseenter = null;
+                boton.onclick = () => {
+                    alert("Gracias por leer mi invitación. Tu respuesta también merece respeto. ❤️");
+                };
+                return;
+            }
+
+            boton.style.position = "fixed";
+
+            const maxX = Math.max(10, window.innerWidth - boton.offsetWidth - 20);
+            const maxY = Math.max(10, window.innerHeight - boton.offsetHeight - 20);
+
+            boton.style.left = Math.random() * maxX + "px";
+            boton.style.top = Math.random() * maxY + "px";
+        }
+
+        function aceptar() {
+            cambiarPantalla('comida');
+        }
+
+        function seleccionar(elemento, tipo, valor) {
+            const contenedor = elemento.parentElement;
+
+            contenedor.querySelectorAll('.opcion').forEach(op => {
+                op.classList.remove('seleccionada');
+            });
+
+            elemento.classList.add('seleccionada');
+
+            if (tipo === 'comida') {
+                comida = valor;
+            } else {
+                bebida = valor;
+            }
+        }
+
+        function siguienteBebida() {
+            if (!comida) {
+                alert("Elige algo delicioso para comer 🍕");
+                return;
+            }
+
+            cambiarPantalla('bebida');
+        }
+
+        function finalizar() {
+            if (!bebida) {
+                alert("¡Todavía falta elegir tu bebida! 🥂");
+                return;
+            }
+
+            document.getElementById('nombreFinal').textContent = nombre;
+            document.getElementById('resNombre').textContent = nombre;
+            document.getElementById('resComida').textContent = comida;
+            document.getElementById('resBebida').textContent = bebida;
+
+            cambiarPantalla('final');
+        }
+
+        function enviarWhatsApp() {
+            const mensaje =
+                `¡Acepté la invitación! ❤️\n\n` +
+                `Mi nombre: ${nombre}\n` +
+                `Comida: ${comida}\n` +
+                `Bebida: ${bebida}\n\n` +
+                `¡Nos vemos en nuestra cita! 💗`;
+
+            const url = `https://wa.me/${miWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+
+            window.open(url, '_blank');
+        }
+
+        // Corazones flotantes
+
+        function crearCorazon() {
+            const corazon = document.createElement('div');
+
+            corazon.className = 'corazon';
+            corazon.textContent = '♥';
+            corazon.style.left = Math.random() * 100 + 'vw';
+            corazon.style.fontSize = (12 + Math.random() * 20) + 'px';
+            corazon.style.animationDuration = (6 + Math.random() * 6) + 's';
+
+            document.getElementById('fondo').appendChild(corazon);
+
+            setTimeout(() => corazon.remove(), 12000);
+        }
+
+        setInterval(crearCorazon, 650);
+
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
